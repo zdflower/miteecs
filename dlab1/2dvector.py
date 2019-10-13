@@ -25,19 +25,21 @@ class V2:
   def getY(self):
     return self.y
 
+  ## ¿Por qué necesito __add__ y también add? ¿Para poder usar tanto el operador + (operand overloading), como el método add para sumar los vectores?
+    
+  # add
+  # V2, V2 --> V2
+  # Add two V2 and produce a new V2
+  def add(self, other):
+    x = self.getX() + other.getX()
+    y = self.getY() + other.getY()
+    return V2(x, y)
+
   # __add__
   # V2, V2 --> V2
   # Add two V2 and produce a new V2
-  def __add__(self, v):
-    x = self.getX() + v.getX()
-    y = self.getY() + v.getY()
-    return V2(x, y)
-
-  # add (¿?)
-  # V2, V2 --> V2
-  # Add two V2 and produce a new V2
-  def add(self, v):
-    return self.__add__(v)
+  def __add__(self, other):
+    return  self.add(other)
 
   #mul
 
@@ -165,7 +167,29 @@ def testV2ADD(v1, v2):
 
 
 testV2ADD(VECTOR_0, VECTOR_0)
+testV2ADD(VECTOR_0, VECTOR_1)
+testV2ADD(VECTOR_1, VECTOR_0)
 
+
+# testeo el uso de +
+def testPlus(v1, v2):
+  print "TESTING PLUS"
+  result = v1 + v2
+  newX = v1.getX() + v2.getX() 
+  newY = v1.getY() + v2.getY()
+  expectedResult = V2(newX, newY)
+  print "Result: " + str(result)
+  print "Expected: " + str(expectedResult)
+  try:
+    assert str(result) == str(expectedResult)
+  except:
+    print "Wrong!"
+  else:
+    print "Right!"
+
+testPlus(VECTOR_0, VECTOR_0)
+testPlus(VECTOR_0, VECTOR_1)
+testPlus(VECTOR_1, VECTOR_0)
 
 # Faltan tests (para muchas de los métodos) que estén destinados a dar error, a propósito, para ver que se reconocen los errores.
 
