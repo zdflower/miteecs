@@ -7,13 +7,14 @@
 # Según la definición dada, si fib(0) = 0, fib(1) = 1, y para n>1, fib(n) = fib(n-1) + fib(n-2)
 
 
-# estructura borrador
+# Natural --> Natural
 def fib(n):
   # casos base
   if n == 0:
     return 0
   elif n == 1:
     return 1
+  # caso recursivo
   elif n > 1:
     return fib(n - 1) + fib (n - 2)
 
