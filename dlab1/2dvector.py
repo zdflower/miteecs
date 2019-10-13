@@ -29,7 +29,7 @@ class V2:
     
   # add
   # V2, V2 --> V2
-  # Add two V2 and produce a new V2
+  # Add the instance and another V2 to produce a new V2
   def add(self, other):
     x = self.getX() + other.getX()
     y = self.getY() + other.getY()
@@ -37,15 +37,28 @@ class V2:
 
   # __add__
   # V2, V2 --> V2
-  # Add two V2 and produce a new V2
+  # Add the instance and another V2 to produce a new V2
   def __add__(self, other):
     return  self.add(other)
 
-  #mul
+  # mul
+  # V2, Float --> V2
+  # produce un nuevo V2, resultado de multiplicar la instancia por un escalar
+  # no modifica la instancia
+  def mul(self, x):
+    newX = self.getX() * x
+    newY = self.getY() * x
+    return V2(newX, newY)
 
   #__mul__
+  # V2, Float --> V2
+  # multiplica el vector por un escalar
+  def __mul__(self, x):
+    return self.mul(x)
 
+  # __str__  
   # V2 --> String
+  # produce una representación del vector como string.
   def __str__(self):
     return "X: {v.x}, Y: {v.y}".format(v=self)
 
@@ -191,7 +204,37 @@ testPlus(VECTOR_0, VECTOR_0)
 testPlus(VECTOR_0, VECTOR_1)
 testPlus(VECTOR_1, VECTOR_0)
 
-# Faltan tests (para muchas de los métodos) que estén destinados a dar error, a propósito, para ver que se reconocen los errores.
+
+def testV2Mul(v, x):
+  print "#####################"
+  print "TESTING V2 MUL"
+  print "#####################"
+  print "Vector: {}".format(v)
+  print "Escalar: {}".format(x)
+  result = v.mul(x)
+  expectedResult = V2(v.getX() * x, v.getY() * x)
+  print "Result: " + str(result)
+  print "Expected: " + str(expectedResult)
+  try:
+    assert str(result) == str(expectedResult)
+  except:
+    print "False"
+  else:
+    print "True"
+  
+testV2Mul(VECTOR_0, 0)
+testV2Mul(VECTOR_0, 1)
+testV2Mul(VECTOR_0, 2)
+testV2Mul(VECTOR_0, -1)
+testV2Mul(VECTOR_1, 0)
+testV2Mul(VECTOR_1, 1)
+testV2Mul(VECTOR_1, 2)
+testV2Mul(VECTOR_1, -1)
+testV2Mul(VECTOR_2, 0)
+testV2Mul(VECTOR_2, -1)
+testV2Mul(VECTOR_2, 2)
+
+# Faltan tests (para muchos de los métodos) que estén destinados a dar error, a propósito, para ver que se reconocen los errores.
 
 # Podría hacer un módulo de tests para esta clase que la importe y entonces ejecutar el archivo con los tests.
 
