@@ -218,21 +218,52 @@ def testV2Mul(v, x):
   try:
     assert str(result) == str(expectedResult)
   except:
-    print "False"
+    return "False"
   else:
-    print "True"
+    return "True"
   
-testV2Mul(VECTOR_0, 0)
-testV2Mul(VECTOR_0, 1)
-testV2Mul(VECTOR_0, 2)
-testV2Mul(VECTOR_0, -1)
-testV2Mul(VECTOR_1, 0)
-testV2Mul(VECTOR_1, 1)
-testV2Mul(VECTOR_1, 2)
-testV2Mul(VECTOR_1, -1)
-testV2Mul(VECTOR_2, 0)
-testV2Mul(VECTOR_2, -1)
-testV2Mul(VECTOR_2, 2)
+print testV2Mul(VECTOR_0, 0)
+print testV2Mul(VECTOR_0, 1)
+print testV2Mul(VECTOR_0, 2)
+print testV2Mul(VECTOR_0, -1)
+print testV2Mul(VECTOR_1, 0)
+print testV2Mul(VECTOR_1, 1)
+print testV2Mul(VECTOR_1, 2)
+print testV2Mul(VECTOR_1, -1)
+print testV2Mul(VECTOR_2, 0)
+print testV2Mul(VECTOR_2, -1)
+print testV2Mul(VECTOR_2, 2)
+
+
+def testV2Times(v, x):
+  print "#####################"
+  print "TESTING V2 TIMES"
+  print "#####################"
+  print "Vector: {}".format(v)
+  print "Escalar: {}".format(x)
+  result = v * x
+  expectedResult = V2(v.getX() * x, v.getY() * x)
+  print "Result: " + str(result)
+  print "Expected: " + str(expectedResult)
+  try:
+    assert str(result) == str(expectedResult)
+  except:
+    return "False"
+  else:
+    return "True"
+
+
+print testV2Times(VECTOR_0, 0)
+print testV2Times(VECTOR_0, 1)
+print testV2Times(VECTOR_0, 2)
+print testV2Times(VECTOR_0, -1)
+print testV2Times(VECTOR_1, 0)
+print testV2Times(VECTOR_1, 1)
+print testV2Times(VECTOR_1, 2)
+print testV2Times(VECTOR_1, -1)
+print testV2Times(VECTOR_2, 0)
+print testV2Times(VECTOR_2, -1)
+print testV2Times(VECTOR_2, 2)
 
 # Faltan tests (para muchos de los métodos) que estén destinados a dar error, a propósito, para ver que se reconocen los errores.
 
