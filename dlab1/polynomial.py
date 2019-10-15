@@ -137,7 +137,7 @@ class Polynomial:
     # En otro caso, son iguales, ya está listo.
     
     # faltaría filtrar los ceros adelante de la lista cuando se anula el término ppal.
-    return Polynomial(newCoeffs)
+    return Polynomial(filtrarPrimerosCoefsNulos(newCoeffs))
 
   # __str__
   # Polynomial --> String
@@ -218,21 +218,23 @@ testPolyAdd(POLY_5, POLY_4, Polynomial([3, -5 + 5, 1.02 + 1.2]))
 # POLY_4 + POLY_5 = [3, 5, 1.02] + [-5, 1.2] = [3, 0, 2.22]
 # POLY_5 + POLY_4 = [-5, 1.2] + [3, 5, 1.02] = [3, 0, 2.22]
 
-testPolyAdd(POLY_5, POLY_6, Polynomial([-5 + 5, 1.2 + 1.2])) # todavía no va a dar como debe ser porque acá va a quedar un 0 adelante, faltaría una función que lo filtre o en la suma chequear antes de crear el polinomio si los primeros elementos consecutivos de la lista son 0. Habría que remover todos los ceros consecutivos desde el inicio, SALVO que la lista tuviera un único elemento y fuera 0, ese sí hay que dejarlo.
+testPolyAdd(POLY_5, POLY_6, Polynomial([1.2 + 1.2])) # ahora que incorporé el filtro de ceros iniciales esto tiene que dar bien
+#testPolyAdd(POLY_5, POLY_6, Polynomial([-5 + 5, 1.2 + 1.2])) # todavía no va a dar como debe ser porque acá va a quedar un 0 adelante, faltaría una función que lo filtre o en la suma chequear antes de crear el polinomio si los primeros elementos consecutivos de la lista son 0. Habría que remover todos los ceros consecutivos desde el inicio, SALVO que la lista tuviera un único elemento y fuera 0, ese sí hay que dejarlo.
 # POLY_5 + POLY_6 = [-5, 1.2] + [5, 1.2] = [2.4]
 # POLY_6 + POLY_5 = [5, 1.2] + [-5, 1.2] = [2.4]
 # POLY_6 + POLY_7 = [5, 1.2] + [5, -1.2] = [10, 0]
 # POLY_7 + POLY_6 = [5, -1.2] + [5, 1.2] = [10, 0]
 
-testPolyAdd(POLY_4, POLY_8, Polynomial([3 - 3, 5 - 5, 1.02 - 1.02])) # mismo comentario que antes respecto de los primeros ceros salvo el último
+testPolyAdd(POLY_4, POLY_8, Polynomial([0.0]))
+#testPolyAdd(POLY_4, POLY_8, Polynomial([3 - 3, 5 - 5, 1.02 - 1.02])) # mismo comentario que antes respecto de los primeros ceros salvo el último
 # POLY_4 + POLY_8 = [0]
 # POLY_8 + POLY_4 = [0]
 
 # testear un caso en que se anulen los primeros 2 coeficientes pero no el o los últimos.
 #POLY_9 = Polynomial([3.1, -50.07, 4, -0.02])
 #POLY_10 = Polynomial([-3.1, 50.07, 14.09, -1.02])
-testPolyAdd(POLY_9, POLY_10, Polynomial([3.1 - 3.1, -50.07 + 50.07 , 4 + 14.09, -0.02 - 1.02]))
-
+#testPolyAdd(POLY_9, POLY_10, Polynomial([3.1 - 3.1, -50.07 + 50.07 , 4 + 14.09, -0.02 - 1.02]))
+testPolyAdd(POLY_9, POLY_10, Polynomial([4 + 14.09, -0.02 - 1.02]))
 
 # test copiarlosquefaltan
 print "########## TEST COPIAR LOS QUE FALTAN #############"
