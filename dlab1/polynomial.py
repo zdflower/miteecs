@@ -76,7 +76,7 @@ class Polynomial:
     # si el grado de self es mayor que el grado de other entonces ...
     # pará, también hay que ver que i esté dentro de los posibles índices que le queden al polinomio
     # qué pasa si los dos eran del mismo grado? nada, solo hacemos algo más si se da el otro caso.
-    if gradoSelf > i: # a esta altura i sería igual a menorGrado, entonces si gradoSelf es mayor que el menor grado...
+    if gradoSelf > menorGrado: # a esta altura i sería igual a menorGrado, entonces si gradoSelf es mayor que el menor grado...
     # Me parece más claro usar menorGrado que i.
       # insertar en newCoeffs los que faltan de self, entre 0 y la diferencia de grado con other
       # ESTÁ MAL EL RANGO DE J, J TIENE QUE IR DE I+1 HASTA EL GRADO DE SELF INCLUIDO, NO SÉ PARA QUÉ QUERÍA LA DIFERENCIA DE GRADOS...
@@ -84,15 +84,15 @@ class Polynomial:
 
 #      for j in range(i+1, gradoSelf+1): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
 #        newCoeffs.insert(0, self.coeff(j))
-      agregarLosCoefQueFaltan(i+1, gradoSelf+1, self, newCoeffs)
+      agregarLosCoefQueFaltan(menorGrado+1, gradoSelf+1, self, newCoeffs)
 
-    elif gradoOther > i:
+    elif gradoOther > menorGrado:
       # MISMA CORRECCIÓN ACÁ:
       # podría usar una función auxiliar ya que repito estos loops, pero qué inputs y qué outputs se necesitarían, y qué pasa con la mutabilidad de las listas y la ausencia o presencia de efectos secundarios...
       
 #      for j in range(i+1, gradoOther+1): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
 #        newCoeffs.insert(0, other.coeff(j))
-      agregarLosCoefQueFaltan(i+1, gradoOther+1, other, newCoeffs)
+      agregarLosCoefQueFaltan(menorGrado+1, gradoOther+1, other, newCoeffs)
 
     # En otro caso, son iguales, ya está listo.
     
