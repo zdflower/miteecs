@@ -10,6 +10,14 @@
 def grado(p):
   return len(p.coeffs) - 1
 
+# agregarLosCoefQueFaltan(desde, hasta, pol, newCoeffs)
+# Integer, Integer, Polynomial, List of Float -> 
+# Modifica la lista de float. Sólo debería agregar adelante los coeficientes de pol entre desde y hasta y no quitar nada.
+# 
+def agregarLosCoefQueFaltan(desde, hasta, pol, newCoeffs):
+  for j in range(desde, hasta): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
+        newCoeffs.insert(0, pol.coeff(j))  
+
 # Polynomial is Polynomial([Float])
 # Representa un polinomio como una lista de Float que son los coeficientes, comenzando por el término de mayor grado.
 class Polynomial:
@@ -69,16 +77,23 @@ class Polynomial:
     # pará, también hay que ver que i esté dentro de los posibles índices que le queden al polinomio
     # qué pasa si los dos eran del mismo grado? nada, solo hacemos algo más si se da el otro caso.
     if gradoSelf > i: # a esta altura i sería igual a menorGrado, entonces si gradoSelf es mayor que el menor grado...
+    # Me parece más claro usar menorGrado que i.
       # insertar en newCoeffs los que faltan de self, entre 0 y la diferencia de grado con other
       # ESTÁ MAL EL RANGO DE J, J TIENE QUE IR DE I+1 HASTA EL GRADO DE SELF INCLUIDO, NO SÉ PARA QUÉ QUERÍA LA DIFERENCIA DE GRADOS...
       # TAL VEZ PODÍA SERVIR SI NO USABA EL MÉTODO COEFF y accedía directamente a los elementos de la lista por sus índices...
-      for j in range(i+1, gradoSelf+1): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
-        newCoeffs.insert(0, self.coeff(j))
+
+#      for j in range(i+1, gradoSelf+1): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
+#        newCoeffs.insert(0, self.coeff(j))
+      agregarLosCoefQueFaltan(i+1, gradoSelf+1, self, newCoeffs)
+
     elif gradoOther > i:
       # MISMA CORRECCIÓN ACÁ:
-      # podría usar una función auxiliar ya que repito estos loops...
-      for j in range(i+1, gradoOther+1): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
-        newCoeffs.insert(0, other.coeff(j))
+      # podría usar una función auxiliar ya que repito estos loops, pero qué inputs y qué outputs se necesitarían, y qué pasa con la mutabilidad de las listas y la ausencia o presencia de efectos secundarios...
+      
+#      for j in range(i+1, gradoOther+1): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
+#        newCoeffs.insert(0, other.coeff(j))
+      agregarLosCoefQueFaltan(i+1, gradoOther+1, other, newCoeffs)
+
     # En otro caso, son iguales, ya está listo.
     
     # faltaría filtrar los ceros adelante de la lista cuando se anula el término ppal.
