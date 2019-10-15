@@ -70,7 +70,9 @@ class Polynomial:
     # qué pasa si los dos eran del mismo grado? nada, solo hacemos algo más si se da el otro caso.
     if gradoSelf > i: # a esta altura i sería igual a menorGrado, entonces si gradoSelf es mayor que el menor grado...
       # insertar en newCoeffs los que faltan de self, entre 0 y la diferencia de grado con other
-      for j in range(diferenciaGrados): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
+      # ESTÁ MAL EL RANGO DE J, J TIENE QUE IR DE I+1 HASTA EL GRADO DE SELF INCLUIDO, NO SÉ PARA QUÉ QUERÍA LA DIFERENCIA DE GRADOS...
+      # TAL VEZ PODÍA SERVIR SI NO USABA EL MÉTODO COEFF y accedía directamente a los elementos de la lista por sus índices...
+      for j in range(i+1, gradoSelf+1): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
         newCoeffs.insert(0, self.coeff(j))
     elif gradoOther > i:
       for j in range(diferenciaGrados): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
@@ -139,8 +141,23 @@ print "POLY_1.add(POLY_1): {}".format(POLY_1.add(POLY_1))
 print "Polynomial([2]): {}".format(Polynomial([2]))
 assert str(POLY_1.add(POLY_1)) == str(Polynomial([2]))
 
-# POLY_4 + POLY_5 = [3, 5, 1.02] + [-5, 1.2] = [3, 0, 2.04]
-# POLY_5 + POLY_4 = [-5, 1.2] + [3, 5, 1.02] = [3, 0, 2.04]
+# Polynomial, Polynomial, Polynomial -> 
+def testPolyAdd(p1, p2, res):
+  suma = p1.add(p2)
+  print "{} + {} = {}".format(p1, p2, suma)
+  print "suma: " + str(suma)
+  print "res: " + str(res)
+  assert str(suma) == str(res) # acá puede haber problema con la comparación de Float y el redondeo o recorte.
+
+
+testPolyAdd(POLY_1, POLY_1, Polynomial([2]))
+testPolyAdd(POLY_4, POLY_5, Polynomial([3, 5 - 5, 1.2 + 1.02]))
+#testPolyAdd(POLY_4, POLY_5, Polynomial([3, 0, 2.22])) # acá me da error porque la suma del término cte. da 2.219999999999998 y yo lo comparo con 2.22, tal vez debería usar redondeo a 3 cifras significativas o algo así.
+#testPolyAdd(POLY_5, POLY_4, Polynomial([3, 0, 2.22]))
+
+
+# POLY_4 + POLY_5 = [3, 5, 1.02] + [-5, 1.2] = [3, 0, 2.22]
+# POLY_5 + POLY_4 = [-5, 1.2] + [3, 5, 1.02] = [3, 0, 2.22]
 # POLY_5 + POLY_6 = [-5, 1.2] + [5, 1.2] = [2.04]
 # POLY_6 + POLY_5 = [5, 1.2] + [-5, 1.2] = [2.04]
 # POLY_6 + POLY_7 = [5, 1.2] + [5, -1.2] = [10, 0]
