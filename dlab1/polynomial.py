@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # polynomial.py
 
-
+################################### Auxiliares ############################################
 # grado
 # Polynomial -> Integer
 # produce el grado del polinomio, el resultado es un entero positivo mayor o igual a 0.
@@ -13,10 +13,50 @@ def grado(p):
 # agregarLosCoefQueFaltan(desde, hasta, pol, newCoeffs)
 # Integer, Integer, Polynomial, List of Float -> 
 # Modifica la lista de float. Sólo debería agregar adelante los coeficientes de pol entre desde y hasta y no quitar nada.
-# 
 def agregarLosCoefQueFaltan(desde, hasta, pol, newCoeffs):
   for j in range(desde, hasta): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
         newCoeffs.insert(0, pol.coeff(j))  
+
+
+# copiarLosQueFaltan
+# Integer, Integer, List of Float, List of Float -> 
+# Modifica la segunda lista. 
+# Agrega los elementos de xs desde desde hasta hasta - 1 en ys.
+# Se supone que desde y hasta están en el rango de xs.
+def copiarLosQueFaltan(desde, hasta, xs, ys):
+  for i in range(desde, hasta):
+    ys.append(xs[i]) 
+
+
+# filtrarPrimerosCoefsNulos
+# List of Float -> List of Float
+# Produce una nueva lista que contiene los mismos elementos que el input salvo los primeros 0 consecutivos desde el índice 0 hasta el primer elemento que no sea 0 excluído.
+# Respeta el mismo orden que tenían en el input los elementos restantes.
+def filtrarPrimerosCoefsNulos(cs):
+  # sería una cosa así como buscar el primer no 0 desde la izquierda y a partir de ahí copiar todo lo que quede de la lista.
+  # acá copiar no es un problema porque el tipo de dato del elemento de la lista es primitivo, es Float.
+  # ¿Cómo se compara la complejidad entre crear una nueva lista o remover los primeros elementos iguales a 0, cuando la lista es grande?
+
+  # tiene que ignorar los primeros ceros, cuando encuentra algo que no es cero sale del loop e incorpora todo el resto a la nueva lista.
+  nuevaCs = []
+  i = 0 # empieza de la izquierda
+  tope = len(cs)
+  while (i < tope and cs[i] == 0):
+    i += 1
+
+  # si i es menor que tope, entonces es que encontró un no cero. En este caso hay que seguir desde i hasta tope-1 copiando los elementos en la nueva lista
+  if i < tope:
+    copiarLosQueFaltan(i, tope, cs, nuevaCs) # esto podría ser similar a agregarLosCoeffsQueFaltan, aunque tienen distinto input y distinto acceso a los coeficientes...
+                                             # tal vez convendría reescribir alguna de estas funciones para que quede una sola que sirva para los dos casos.
+  else:
+    # si i es igual al tope, todos eran cero. en este caso la nueva lista va a ser [0]
+    nuevaCs.append(0.0)
+  return nuevaCs
+
+
+
+############################################################################################
+
 
 # Polynomial is Polynomial([Float])
 # Representa un polinomio como una lista de Float que son los coeficientes, comenzando por el término de mayor grado.
@@ -179,8 +219,8 @@ testPolyAdd(POLY_5, POLY_4, Polynomial([3, -5 + 5, 1.02 + 1.2]))
 # POLY_5 + POLY_4 = [-5, 1.2] + [3, 5, 1.02] = [3, 0, 2.22]
 
 testPolyAdd(POLY_5, POLY_6, Polynomial([-5 + 5, 1.2 + 1.2])) # todavía no va a dar como debe ser porque acá va a quedar un 0 adelante, faltaría una función que lo filtre o en la suma chequear antes de crear el polinomio si los primeros elementos consecutivos de la lista son 0. Habría que remover todos los ceros consecutivos desde el inicio, SALVO que la lista tuviera un único elemento y fuera 0, ese sí hay que dejarlo.
-# POLY_5 + POLY_6 = [-5, 1.2] + [5, 1.2] = [2.04]
-# POLY_6 + POLY_5 = [5, 1.2] + [-5, 1.2] = [2.04]
+# POLY_5 + POLY_6 = [-5, 1.2] + [5, 1.2] = [2.4]
+# POLY_6 + POLY_5 = [5, 1.2] + [-5, 1.2] = [2.4]
 # POLY_6 + POLY_7 = [5, 1.2] + [5, -1.2] = [10, 0]
 # POLY_7 + POLY_6 = [5, -1.2] + [5, 1.2] = [10, 0]
 
@@ -192,3 +232,35 @@ testPolyAdd(POLY_4, POLY_8, Polynomial([3 - 3, 5 - 5, 1.02 - 1.02])) # mismo com
 #POLY_9 = Polynomial([3.1, -50.07, 4, -0.02])
 #POLY_10 = Polynomial([-3.1, 50.07, 14.09, -1.02])
 testPolyAdd(POLY_9, POLY_10, Polynomial([3.1 - 3.1, -50.07 + 50.07 , 4 + 14.09, -0.02 - 1.02]))
+
+
+# test copiarlosquefaltan
+print "########## TEST COPIAR LOS QUE FALTAN #############"
+L1 = [25, 3, 8, 4.000009102]
+L2 = [1]
+
+print "L2: " + str(L2)
+copiarLosQueFaltan(2, 4, L1, L2) # tendría que quedar como [1, 8, 4.000009102]
+print "L2 con los agregados: " + str(L2)
+print [1, 8, 4.000009102]
+
+
+# List Of Float, List Of Float -> 
+def testFiltrarCerosIniciales(cs, res):
+  print "#### TEST FILTRAR CEROS INICIALES ####"
+  filtrado = filtrarPrimerosCoefsNulos(cs)
+  print "original: " + str(cs)
+  print "esperado: " + str(res)
+  print "filtrado: " + str(filtrado)
+  assert str(filtrado) == str(res)
+
+testFiltrarCerosIniciales(POLY_4.add(POLY_8).coeffs, [0.0])
+
+testFiltrarCerosIniciales(POLY_5.add(POLY_6).coeffs, [2.4])
+
+testFiltrarCerosIniciales(POLY_9.add(POLY_10).coeffs, [18.09, -1.04])
+
+testFiltrarCerosIniciales(POLY_6.add(POLY_7).coeffs, [10, -1.2 + 1.2])
+
+# testear un caso en que no haya que suprimir ningún cero adelante
+testFiltrarCerosIniciales(POLY_4.add(POLY_4).coeffs, [6, 10, 1.02 + 1.02])
