@@ -75,7 +75,9 @@ class Polynomial:
       for j in range(i+1, gradoSelf+1): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
         newCoeffs.insert(0, self.coeff(j))
     elif gradoOther > i:
-      for j in range(diferenciaGrados): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
+      # MISMA CORRECCIÓN ACÁ:
+      # podría usar una función auxiliar ya que repito estos loops...
+      for j in range(i+1, gradoOther+1): # si fueran iguales no habría ningún loop para hacer, porque el rango estaría vacío
         newCoeffs.insert(0, other.coeff(j))
     # En otro caso, son iguales, ya está listo.
     
@@ -154,7 +156,7 @@ testPolyAdd(POLY_1, POLY_1, Polynomial([2]))
 testPolyAdd(POLY_4, POLY_5, Polynomial([3, 5 - 5, 1.2 + 1.02]))
 #testPolyAdd(POLY_4, POLY_5, Polynomial([3, 0, 2.22])) # acá me da error porque la suma del término cte. da 2.219999999999998 y yo lo comparo con 2.22, tal vez debería usar redondeo a 3 cifras significativas o algo así.
 #testPolyAdd(POLY_5, POLY_4, Polynomial([3, 0, 2.22]))
-
+testPolyAdd(POLY_5, POLY_4, Polynomial([3, -5 + 5, 1.02 + 1.2]))
 
 # POLY_4 + POLY_5 = [3, 5, 1.02] + [-5, 1.2] = [3, 0, 2.22]
 # POLY_5 + POLY_4 = [-5, 1.2] + [3, 5, 1.02] = [3, 0, 2.22]
