@@ -23,6 +23,7 @@ def agregarLosCoefQueFaltan(desde, hasta, pol, newCoeffs):
 # Modifica la segunda lista. 
 # Agrega los elementos de xs desde desde hasta hasta - 1 en ys.
 # Se supone que desde y hasta están en el rango de xs.
+# Esta función es similar a agregarLosCoefQueFaltan. Tal vez se podría reescribir el código que usa ambas para que quede una sola.
 def copiarLosQueFaltan(desde, hasta, xs, ys):
   for i in range(desde, hasta):
     ys.append(xs[i]) 
@@ -138,6 +139,18 @@ class Polynomial:
     
     # faltaría filtrar los ceros adelante de la lista cuando se anula el término ppal.
     return Polynomial(filtrarPrimerosCoefsNulos(newCoeffs))
+
+  # __add__
+  # Polynomial, Polynomial -> Polynomial
+  # Suma dos polinomios.
+  def __add__(self, other):
+    return self.add(other)
+
+  # mul(self,other)
+  # Polynomial, Polynomial -> Polynomial
+  # Returns a new Polynomial representing the product of Polynomials self and other
+  def mul(self, other):
+    pass
 
   # __str__
   # Polynomial --> String
@@ -266,3 +279,8 @@ testFiltrarCerosIniciales(POLY_6.add(POLY_7).coeffs, [10, -1.2 + 1.2])
 
 # testear un caso en que no haya que suprimir ningún cero adelante
 testFiltrarCerosIniciales(POLY_4.add(POLY_4).coeffs, [6, 10, 1.02 + 1.02])
+
+print "#### Test + ####"
+print POLY_1 + POLY_1
+print POLY_1.add(POLY_1)
+assert str(POLY_1 + POLY_1) == str(POLY_1.add(POLY_1))
