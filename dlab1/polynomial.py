@@ -190,18 +190,22 @@ class Polynomial:
     #multiplico una vuelta sola, para probar
     i = gSelf
     j = gOther
-    while i >= 0:
-      #print self.coeff(i)
-      #print "por"
-      #print other.coeff(j)
-      #print "="
-      #print self.coeff(i) * other.coeff(j)
-      #print "va en el término de grado: "
-      #print "{} + {} = {}".format(i, j, i + j)
-      #print "i+j={}".format(i + j)
-      resultadoCoeffs[gradoResultado - (i + j)] = self.coeff(i) * other.coeff(j)
-      #print str(resultadoCoeffs[i+j])
-      i -= 1
+    while j >= 0:
+      ## tendría que sumarle a lo que hay en resultadoCoeffs[gradoResultado - (i+j)] en vez de directamente asignar
+      while i >= 0:
+        #print self.coeff(i)
+        #print "por"
+        #print other.coeff(j)
+        #print "="
+        #print self.coeff(i) * other.coeff(j)
+        #print "va en el término de grado: "
+        #print "{} + {} = {}".format(i, j, i + j)
+        #print "i+j={}".format(i + j)
+        resultadoCoeffs[gradoResultado - (i + j)] += self.coeff(i) * other.coeff(j) # sumo a lo que hay ahí.
+        #print str(resultadoCoeffs[i+j])
+        i -= 1
+      j -= 1
+      i = gSelf # tengo que resetear i para que vuelva a recorrer esos elementos para cada j. ¡EXPLICARLO!
 
     #print "resultadoCoeffs: " + str(resultadoCoeffs)
     return Polynomial(filtrarPrimerosCoefsNulos(resultadoCoeffs))
@@ -342,16 +346,19 @@ assert str(POLY_1 + POLY_1) == str(POLY_1.add(POLY_1))
 print "#### MULTIPLICACIÓN ####"
 # ejemplo:
 # multiplicación de dos polinomios constantes.
-#assert POLY_1.mul(POLY_1).coeffs == [POLY_1.coeff(0) * POLY_1.coeff(0)] 
+assert POLY_1.mul(POLY_1).coeffs == [POLY_1.coeff(0) * POLY_1.coeff(0)] 
+print "Multiplicación de dos polinomios constantes OK."
 
 # multiplicación de un polinomio de cualquier grado por el polinomio constante 0.
-#assert POLY_2.mul(POLY_0).coeffs == [0] 
+assert POLY_2.mul(POLY_0).coeffs == [0] 
+print "Multiplicación de un polinomio de cualquier grado por el polinomio constante 0 OK."
 
 # multiplicación de un polinomio de cualquier grado por el polinomio constante 1.
-#assert POLY_9.mul(POLY_1).coeffs == POLY_9.coeffs 
+assert POLY_9.mul(POLY_1).coeffs == POLY_9.coeffs 
+print "Multiplicación de un polinomio de cualquier grado por el polinomio constante 1 OK."
 
 # multiplicación de un polinomio lineal por uno constante.
-#assert POLY_6.mul(POLY_11).coeffs == [5 * 11, 1.2 * 11] == [POLY_6.coeff(1) * POLY_11.coeff[0], POLY_6.coeff(0) * POLY_11.coeff[0]] 
+assert POLY_6.mul(POLY_11).coeffs == [5 * 11, 1.2 * 11] == [POLY_6.coeff(1) * POLY_11.coeff(0), POLY_6.coeff(0) * POLY_11.coeff(0)] 
 
 POLY_12 = Polynomial([1, 0]) # x
 POLY_13 = Polynomial([1, 1]) # x + 1
@@ -361,6 +368,7 @@ POLY_16 = Polynomial([1, 1, 1]) # x² + x + 1
 
 # multiplicación de dos polinomios lineales
 # x * x = x²
+assert POLY_12.mul(POLY_12).coeffs == [1, 0, 0]
 
 # multiplicación de dos polinomios lineales, otro:
 # (x + 1) * (x + 1) = x² + 2x + 1
@@ -378,4 +386,4 @@ POLY_16 = Polynomial([1, 1, 1]) # x² + x + 1
 
 
 print "Test borrador mul"
-print Polynomial([1,1,1]).mul(Polynomial([1,0,0])).coeffs
+print Polynomial([1,1,1]).mul(Polynomial([1,1,1])).coeffs
