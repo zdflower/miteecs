@@ -152,6 +152,7 @@ class Polynomial:
   def mul(self, other):
     pass
 
+
   # __str__
   # Polynomial --> String
   # Produce una representación textual del polinomio en forma de cadena de caracteres.
@@ -159,7 +160,7 @@ class Polynomial:
     return str(self.coeffs)
 
 #Ejemplos:
-
+POLY_0 = Polynomial([0]) # polinomio nulo
 POLY_1 = Polynomial([1]) # polinomio constante 1, grado 0
 POLY_2 = Polynomial([1, -0.001, 0, 0, 2]) # 1z⁴ - 0.001z³ + 2, grado 4
 POLY_3 = Polynomial([0, 1, -0.001, 0, 0, 2])  # no tiene sentido darle coeficiente 0 al primer término, debería ser equivalente al anterior
@@ -172,7 +173,7 @@ POLY_7 = Polynomial([5, -1.2])
 POLY_8 = Polynomial([-3, -5, -1.02])
 POLY_9 = Polynomial([3.1, -50.07, 4, -0.02])
 POLY_10 = Polynomial([-3.1, 50.07, 14.09, -1.02])
-
+POLY_11 = Polynomial([11])
 print "########## Ejemplos de Polynomial ##########"
 print POLY_1
 print POLY_2
@@ -284,3 +285,35 @@ print "#### Test + ####"
 print POLY_1 + POLY_1
 print POLY_1.add(POLY_1)
 assert str(POLY_1 + POLY_1) == str(POLY_1.add(POLY_1))
+
+print "#### MULTIPLICACIÓN ####"
+# ejemplo:
+# multiplicación de dos polinomios constantes.
+assert POLY_1.mul(POLY_1).coeffs == [POLY_1.coeff(0) * POLY_1.coeff(0)] 
+
+# multiplicación de un polinomio de cualquier grado por el polinomio constante 0.
+assert POLY_2.mul(POLY_0).coeffs == [0] 
+
+# multiplicación de un polinomio de cualquier grado por el polinomio constante 1.
+assert POLY_9.mul(POLY_1).coeffs == POLY_9.coeffs 
+
+# multiplicación de un polinomio lineal por uno constante.
+assert POLY_6.mul(POLY_11).coeffs == [5 * 11, 1.2 * 11] == [POLY_6.coeff(1) * POLY_11.coeff[0], POLY_6.coeff(0) * POLY_11.coeff[0]] 
+
+POLY_12 = Polynomial([1, 0]) # x
+POLY_13 = Polynomial([1, 1]) # x + 1
+POLY_14 = Polynomial([1, 0, 0]) # x²
+POLY_15 = Polynomial([1, 0, 1]) # x² + 1
+POLY_16 = Polynomial([1, 1, 1]) # x² + x + 1
+
+# multiplicación de dos polinomios lineales
+# x * x = x²
+
+# multiplicación de dos polinomios lineales, otro:
+# (x + 1) * (x + 1) = x² + 2x + 1
+# multiplicación de un polinomio cuadrático por uno constante
+# multiplicación de un polinomio cuadrático por uno lineal
+# multiplicación de dos polinomios cuadráticos.
+# x² * x² = x⁴
+# (x² + 0x + 1)² 
+# etc.
