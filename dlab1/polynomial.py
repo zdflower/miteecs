@@ -210,11 +210,24 @@ class Polynomial:
     #print "resultadoCoeffs: " + str(resultadoCoeffs)
     return Polynomial(filtrarPrimerosCoefsNulos(resultadoCoeffs))
 
+  # __mul__
+  # Polynomial, Polynomial -> Polynomial
+  # produces a new polynomial that represents the product of self and other.
+  def __mul__(self, other):
+    return self.mul(other)
+
   # __str__
   # Polynomial --> String
   # Produce una representación textual del polinomio en forma de cadena de caracteres.
   def __str__(self):
-    return str(self.coeffs)
+    res = ""
+    i = grado(self)
+    while i > 0:
+      res += "{0:.3f} z**{1:d} + ".format(self.coeff(i), i) # el "0" y el "1" delante de ":" se refieren al primer y segundo argumentos de format.
+      i -= 1
+
+    res += "{:.3f}".format(self.coeff(i)) # se puede omitir el número de argumento pero tenés que poner los dos puntos...
+    return res
 
 #Ejemplos:
 POLY_0 = Polynomial([0]) # polinomio nulo
@@ -386,4 +399,5 @@ assert POLY_12.mul(POLY_12).coeffs == [1, 0, 0]
 
 
 print "Test borrador mul"
-print Polynomial([1,1,1]).mul(Polynomial([1,1,1])).coeffs
+print Polynomial([1,1,1]).mul(Polynomial([1,1,1]))
+print Polynomial([1,1,1]) * Polynomial([1,1,1])
