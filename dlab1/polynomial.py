@@ -228,6 +228,12 @@ class Polynomial:
 
     return res
 
+  # roots(self)
+  # Polynomial -> List of Numbers or String
+  # Devuelve una lista con la o las raíces del polinomio si es de grado 1 o 2, en otro caso devuelve una cadena
+  # con el mensaje: "Can't solve roots for that polynomial"
+  def roots(self):
+    return "Can't solve the roots for that polynomial" # borrador
   
   # __str__
   # Polynomial --> String
