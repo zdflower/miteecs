@@ -216,6 +216,19 @@ class Polynomial:
   def __mul__(self, other):
     return self.mul(other)
 
+  # val(self,v)
+  # Polynomial, Float -> Float
+  # Returns the numerical result of evaluating the polynomial when x equals v.
+  def val(self, v):
+    res = 0
+    exp = grado(self)
+    while (exp >= 0):
+      res += self.coeff(exp) * (v ** exp)
+      exp -= 1
+
+    return res
+
+  
   # __str__
   # Polynomial --> String
   # Produce una representación textual del polinomio en forma de cadena de caracteres.
@@ -398,6 +411,15 @@ assert POLY_12.mul(POLY_12).coeffs == [1, 0, 0]
 # print str(inicializarLista(10))
 
 
-print "Test borrador mul"
+print "Test mul"
 print Polynomial([1,1,1]).mul(Polynomial([1,1,1]))
 print Polynomial([1,1,1]) * Polynomial([1,1,1])
+
+print "Test val"
+assert POLY_0.val(-0.26) == 0
+assert POLY_2.val(1) == 1 - 0.001 + 2 == POLY_2.coeff(4) * (1 ** 4) + POLY_2.coeff(3) * (1 ** 3) + POLY_2.coeff(2) * (1 ** 2) + POLY_2.coeff(1) * (1 ** 1) + POLY_2.coeff(0) * (1 ** 0)
+
+print POLY_2.val(-3.01) 
+print POLY_2.coeff(4) * ((-3.01) ** 4) + POLY_2.coeff(3) * ((-3.01) ** 3) + POLY_2.coeff(2) * ((-3.01) ** 2) + POLY_2.coeff(1) * ((-3.01) ** 1) + POLY_2.coeff(0) * ((-3.01) ** 0)
+                        #^--tengo que poner el negativo entre paréntesis si no le cambia el signo al resultado. No sé si es un problema de la exponenciación o de qué parte de python.
+assert POLY_2.val(-3.01) == POLY_2.coeff(4) * ((-3.01) ** 4) + POLY_2.coeff(3) * ((-3.01) ** 3) + POLY_2.coeff(2) * ((-3.01) ** 2) + POLY_2.coeff(1) * ((-3.01) ** 1) + POLY_2.coeff(0) * ((-3.01) ** 0)
